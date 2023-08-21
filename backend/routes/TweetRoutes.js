@@ -20,6 +20,17 @@ router.post("/add-tweet",authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/myTweets",authMiddleware, async (req, res) => {
+  try {
+    const tweets = Tweet.find({ author: req.user.userId });
+    res.status(201).json({ message: "Tweet created successfully", tweets}, );
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the tweet" });
+  }
+});
+
 router.put('/edit-tweet/:tweetId', authMiddleware, async (req, res) => {
   try {
     const { tweetId } = req.params;
