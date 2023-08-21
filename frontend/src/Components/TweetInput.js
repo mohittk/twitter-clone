@@ -1,10 +1,13 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { useState } from "react";
+import { add_tweet } from "../controllers/tweetRoutes";
 
 const TweetInput = () => {
   const [input, setInput] = useState("");
-
+  const do_tweet=async()=>{
+    await add_tweet({content:input}).then((res)=>alert(res.message));
+  }
   return (
     <div className="flex border-b border-gray-200 p-3 space-x-3">
       <img
@@ -28,6 +31,7 @@ const TweetInput = () => {
           </div>
           <button
             disabled={!input.trim()}
+            onClick={do_tweet}
             className="bg-blue-400 text-white px-4 py-2 rounded-full font-bold shadow-md hover:brightness-95 disabled:opacity-50"
           >
             Tweet
