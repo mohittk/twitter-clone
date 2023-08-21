@@ -12,12 +12,14 @@ app.use(express.json());
 const userRoutes = require("./routes/UserRoutes");
 const tweetRoutes = require("./routes/TweetRoutes");
 
-try {
-  mongoose.connect(`mongodb+srv://bc123:123@cluster0.jmrhbdh.mongodb.net/`);
-  console.log("DB connected");
-} catch(err){
+// const DB = process.env.DATABASE;
+const DB = "mongodb+srv://bc123:123@cluster0.jmrhbdh.mongodb.net/";
+mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+  console.log("Database connected.");
+}).catch((err) => {
+  console.log("Database error");
   console.log(err);
-}
+});
 
 
 
