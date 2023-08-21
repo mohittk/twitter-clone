@@ -14,10 +14,6 @@ import { useEffect, useState } from "react"
 import { is_follower } from "../controllers/userRoutes";
 
 const Post = ({ post }) => {
-  const [isFollowed, setIsFollowed] = useState(false);
-  useEffect(() => {
-    is_follower({ authorId: post.author._id }).then((res) => setIsFollowed(res.message))
-  }, [])
   const displayDate = (date) => {
     var parsedDate = moment(date)
     var formattedDate = parsedDate.format("ddd, MMM DD, YYYY");
@@ -42,7 +38,7 @@ const Post = ({ post }) => {
       {/* user image */}
       <img
         className="h-11 w-11 rounded-full mr-4"
-        src={post.userImage}
+        src={`https://source.unsplash.com/random/1128%C3%97192/?profile_${post._id}`}
         alt="Profile picture"
       />
       {/* Right Side */}
@@ -55,16 +51,10 @@ const Post = ({ post }) => {
               {post.author.username}
             </h4>
             {(isMe()) ? <div className="flex items-center space-x-1 px-3 whitespace-nowrap"></div> :
-              isFollowed ?
                 <div className="flex items-center space-x-1 px-3 whitespace-nowrap"
                 onClick={()=>unfollow_user({userId:post.author._id}).then((res)=>alert(res.message))}
                 >
                   unfollow
-                </div> :
-                <div className="flex items-center space-x-1 px-4 whitespace-nowrap"
-                onClick={()=>follow_user({userId:post.author._id}).then((res)=>alert(res.message))}
-                >
-                  follow
                 </div>
             }
             <span className="text-sm sm:text-[15px]">@{post.username} - </span>

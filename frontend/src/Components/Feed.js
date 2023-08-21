@@ -7,7 +7,7 @@ import { timeline } from "../controllers/tweetRoutes";
 const Feed = () => {
   const [posts, setPost] = useState([]);
   useEffect(()=>{
-    timeline().then((res)=>console.log(res))
+    timeline().then((res)=>setPost(res))
   },[])
 
   return (
@@ -20,7 +20,7 @@ const Feed = () => {
       </div>
       <TweetInput />
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post._id} post={post} />
       ))}
     </div>
   );

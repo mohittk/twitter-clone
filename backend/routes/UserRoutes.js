@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
+const authMiddleware=require("../middleware/authmiddleware")
 const User = require("../models/User");
 
 
@@ -16,8 +16,10 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = new User({ username, password: hashedPassword });
     await user.save();
-
-    res.status(201).json({ message: "User registered successfully" });
+    const token = jwt.sign({ userId: user._id }, "your_secret_key", {
+      expiresIn: "1h",
+    });
+    res.status(201).json({ message: "User registered successfully" ,token});
   } catch (error) {
     console.error("Registration Error:", error);
     res.status(500).json({ error: "An error occurred while registering user" });
@@ -56,7 +58,7 @@ router.get("/isFollower/:authorId",authMiddleware, async (req, res) => {
   try {
     const {authorId}=req.params;
     const user = await User.findById(req.user.userId).populate("following");
-    const followingId=[];
+    let followingId=[];
     followingId = user.following.filter((follower) => (follower._id===authorId));
     if(followingId.length){
       res.status(201).json({ message: true});
@@ -70,9 +72,36 @@ router.get("/isFollower/:authorId",authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/allusers", async (req, res) => {
+router.get("/isLoggedIn",authMiddleware, async (req, res) => {
+  try {
+    res.status(201).json({ message: true});
+  } catch (error) {
+    console.log(error)
+    res
+      .status(500)
+      .json({ error: "An error occurred",message:false });
+  }
+});
+
+router.get("/allfollowingIds", async (req, res) => {
   const user = await User.find();
 
+  res.json({message: user});
+})
+
+router.get("/findPeople",authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user.userId).populate("following");
+  // console.log("user",user);
+  let followingIds=[];
+  followingIds = user.following.filter((follower) => (follower._id!=req.user.userId));
+  // console.log("followingIds",followingIds);
+  let people = await User.find({ _id: { $nin: followingIds } })  
+  // console.log("people",people);
+  res.json({message: people});
+})
+
+router.get("/myProfile",authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user.userId).populate('followers').populate('following').select('-password');
   res.json({message: user});
 })
 

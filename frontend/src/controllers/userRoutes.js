@@ -23,6 +23,30 @@ export const is_Authenticated=async()=>{
     return ans;
 }
 
+export const find_people=async()=>{
+    const res = await fetch(`${base}/api/user/findPeople`, {
+        method: 'GET',
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem("token")
+        },
+    });
+    const ans = await res.json();
+    return ans;
+}
+
+export const my_profile=async()=>{
+    const res = await fetch(`${base}/api/user/myProfile`, {
+        method: 'GET',
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem("token")
+        },
+    });
+    const ans = await res.json();
+    return ans;
+}
+
 export const is_follower = async(obj) => {
     const res = await fetch(`${base}/api/user/isFollower/${obj.authorId}`, {
         method: 'GET',
