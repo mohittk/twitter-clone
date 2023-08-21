@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+  const token = req.header('Authorization')?req.header('Authorization'):'';
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
   try {
-    const decoded = jwt.verify(token, 'your_secret_key'); // Replace with your actual secret key
+    const decoded = jwt.verify(token, 'your_secret_key');
     req.user = { userId: decoded.userId };
     next();
   } catch (error) {

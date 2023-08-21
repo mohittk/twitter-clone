@@ -6,6 +6,7 @@ export const add_tweet = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            
         },
     });
     const ans = await res.json();
