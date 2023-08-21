@@ -61,9 +61,8 @@ export const timeline = async(obj) => {
     return ans;
 }
 export const follow_user = async(obj) => {
-    const res = await fetch(`${base}/api/tweet/follow/:userId`, {
+    const res = await fetch(`${base}/api/tweet/follow/${obj.userId}`, {
         method: 'POST',
-        body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
             "Authorization":localStorage.getItem('token'),
@@ -74,9 +73,8 @@ export const follow_user = async(obj) => {
 }
 
 export const unfollow_user = async(obj) => {
-    const res = await fetch(`${base}/api/tweet/unfollow/:userId`, {
+    const res = await fetch(`${base}/api/tweet/unfollow/${obj.userId}`, {
         method: 'POST',
-        body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
             "Authorization":localStorage.getItem('token'),

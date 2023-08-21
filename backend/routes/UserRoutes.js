@@ -51,6 +51,25 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
+router.get("/isFollower/:authorId",authMiddleware, async (req, res) => {
+  try {
+    const {authorId}=req.params;
+    const user = await User.findById(req.user.userId).populate("following");
+    const followingId=[];
+    followingId = user.following.filter((follower) => (follower._id===authorId));
+    if(followingId.length){
+      res.status(201).json({ message: true});
+    }
+    else res.status(201).json({ message: false });
+  } catch (error) {
+    console.log(error)
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the tweet" });
+  }
+});
+
 router.get("/allusers", async (req, res) => {
   const user = await User.find();
 
