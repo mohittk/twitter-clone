@@ -6,7 +6,9 @@ import { timeline } from "../controllers/tweetRoutes";
 
 const Feed = () => {
   const [posts, setPost] = useState([]);
-  
+  useEffect(()=>{
+    timeline().then((res)=>console.log(res))
+  },[])
 
   return (
     <div className="xl:ml-[260px] border-l border-r border-gray-200 xl:min-w-[576px] sm:ml-[73px] flex-grow max-w-xl">

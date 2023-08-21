@@ -6,7 +6,7 @@ export const add_tweet = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
-            
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
@@ -18,6 +18,7 @@ export const edit_tweet = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
@@ -29,6 +30,7 @@ export const delete_tweet = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
@@ -40,6 +42,7 @@ export const timeline = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
@@ -51,6 +54,7 @@ export const follow_user = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
@@ -63,6 +67,7 @@ export const unfollow_user = async(obj) => {
         body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
         },
     });
     const ans = await res.json();
