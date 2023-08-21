@@ -22,9 +22,11 @@ router.post("/add-tweet",authMiddleware, async (req, res) => {
 
 router.get("/myTweets",authMiddleware, async (req, res) => {
   try {
-    const tweets = Tweet.find({ author: req.user.userId });
-    res.status(201).json({ message: "Tweet created successfully", tweets}, );
+    const tweets = await Tweet.find({ author: req.user.userId }).sort("-createdAt")
+    .populate("author");
+    res.status(201).json({ message: "Tweet fetched successfully",tweets});
   } catch (error) {
+    console.log(error)
     res
       .status(500)
       .json({ error: "An error occurred while fetching the tweet" });
