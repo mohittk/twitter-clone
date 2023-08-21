@@ -12,10 +12,23 @@ export const add_tweet = async(obj) => {
     const ans = await res.json();
     return ans;
 }
+
+export const my_tweets = async() => {
+    const res = await fetch(`${base}/api/tweet/myTweets`, {
+        method: 'GET',
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization":localStorage.getItem('token'),
+        },
+    });
+    const ans = await res.json();
+    return ans;
+}
+
 export const edit_tweet = async(obj) => {
-    const res = await fetch(`${base}/api/tweet/edit-tweet`, {
+    const res = await fetch(`${base}/api/tweet/edit-tweet/${obj.id}`, {
         method: 'PUT',
-        body: JSON.stringify(obj),
+        body: JSON.stringify({content:obj.content}),
         headers: {
             "Content-Type" : "application/json",
             "Authorization":localStorage.getItem('token'),
@@ -25,9 +38,8 @@ export const edit_tweet = async(obj) => {
     return ans;
 }
 export const delete_tweet = async(obj) => {
-    const res = await fetch(`${base}/api/tweet/delete-tweet`, {
+    const res = await fetch(`${base}/api/tweet/delete-tweet/${obj.id}`, {
         method: 'DELETE',
-        body: JSON.stringify(obj),
         headers: {
             "Content-Type" : "application/json",
             "Authorization":localStorage.getItem('token'),

@@ -2,12 +2,13 @@ import { SparklesIcon } from "@heroicons/react/outline";
 import TweetInput from "./TweetInput";
 import Post from "./Post";
 import { useEffect, useState } from "react";
-import { timeline } from "../controllers/tweetRoutes";
+import { my_tweets, timeline } from "../controllers/tweetRoutes";
 
 const MyTweets = () => {
   const [posts, setPost] = useState([]);
   useEffect(()=>{
-    timeline().then((res)=>console.log(res))
+    console.log("MT_TWEETS")
+    my_tweets().then((res)=>setPost(res.tweets))
   },[])
 
   return (
@@ -20,7 +21,7 @@ const MyTweets = () => {
       </div>
       <TweetInput />
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post._id} post={post} />
       ))}
     </div>
   );
